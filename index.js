@@ -17,6 +17,7 @@ app.use(
   cors({
     origin: FRONTEND_ENV,  
     credentials: true,
+    
   })
 );
 app.use(express.json());
