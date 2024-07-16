@@ -10,9 +10,12 @@ import cookieParser from "cookie-parser";
 dotenv.config();
 
 const app = express();
+const PORT = process.env.PORT || 3000; 
+const FRONTEND_ENV = process.env.FRONTEND_ENV 
+
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: FRONTEND_ENV,  
     credentials: true,
   })
 );
@@ -22,7 +25,7 @@ app.use(cookieParser());
 mongoose
   .connect(process.env.MONGO)
   .then(() => {
-    console.log("MongoDb connected");
+    console.log("MongoDB connected");
   })
   .catch((err) => {
     console.log(err);
@@ -44,6 +47,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(3000, () => {
-  console.log("Server is running on port 3000");
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
