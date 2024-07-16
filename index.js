@@ -10,21 +10,23 @@ import cookieParser from "cookie-parser";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000; 
-const FRONTEND_ENV = process.env.FRONTEND_ENV 
+const PORT = process.env.PORT || 3000;
+const FRONTEND_ENV = process.env.FRONTEND_ENV;
 
 app.use(
   cors({
-    origin: FRONTEND_ENV,  
+    origin: FRONTEND_ENV.replace(/\/$/, ""),  // Ensure no trailing slash
     credentials: true,
-    
   })
 );
 app.use(express.json());
 app.use(cookieParser());
 
 mongoose
-  .connect(process.env.MONGO)
+  .connect(process.env.MONGO, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
     console.log("MongoDB connected");
   })
